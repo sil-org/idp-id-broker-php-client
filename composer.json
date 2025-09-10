@@ -1,7 +1,7 @@
 {
-  "name": "silinternational/idp-id-broker-php-client",
+  "name": "sil-org/idp-id-broker-php-client",
   "type": "library",
-  "description": "PHP client to interact with our IdP ID Broker's API: https://github.com/silinternational/idp-id-broker",
+  "description": "PHP client to interact with our IdP ID Broker's API: https://github.com/sil-org/idp-id-broker",
   "keywords": ["idp", "id broker", "api", "php client"],
   "license": "MIT",
   "require": {
