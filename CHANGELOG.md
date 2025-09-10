@@ -87,19 +87,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/4.0.1...HEAD
-[4.0.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/4.0.0...4.0.1
-[4.0.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.2.0...4.0.0
-[3.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.1.0...3.2.0
-[3.1.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.0.0...3.1.0
-[3.0.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.6.0...3.0.0
-[2.6.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.1...2.6.0
-[2.5.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...2.5.1
-[2.5.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.4.0...2.5.0
-[2.4.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.3.0...2.4.0
-[2.3.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.1...2.3.0
-[2.2.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.0...2.2.1
-[2.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.1.2...2.2.0
-[0.2.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/0.2.0...0.2.1
-[0.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/0.1.0...0.2.0
-[0.1.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/071923e...0.1.0
+[Unreleased]: https://github.com/sil-org/idp-id-broker-php-client/compare/4.0.1...HEAD
+[4.0.1]: https://github.com/sil-org/idp-id-broker-php-client/compare/4.0.0...4.0.1
+[4.0.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/3.2.0...4.0.0
+[3.2.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/3.1.0...3.2.0
+[3.1.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/3.0.0...3.1.0
+[3.0.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.6.0...3.0.0
+[2.6.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.5.1...2.6.0
+[2.5.1]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.5.0...2.5.1
+[2.5.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.4.0...2.5.0
+[2.4.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.3.0...2.4.0
+[2.3.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.2.1...2.3.0
+[2.2.1]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.2.0...2.2.1
+[2.2.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/2.1.2...2.2.0
+[0.2.1]: https://github.com/sil-org/idp-id-broker-php-client/compare/0.2.0...0.2.1
+[0.2.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/sil-org/idp-id-broker-php-client/compare/071923e...0.1.0

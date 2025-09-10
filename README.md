@@ -1,5 +1,5 @@
 # idp-id-broker-php-client
-PHP client to interact with our [IdP ID Broker](https://github.com/silinternational/idp-id-broker)'s API.
+PHP client to interact with our [IdP ID Broker](https://github.com/sil-org/idp-id-broker)'s API.
 
 This client is built on top of 
 [Guzzle](http://docs.guzzlephp.org/en/stable/), the PHP HTTP Client. 
@@ -11,7 +11,7 @@ adding support for more APIs is relatively simple.
 ## Install ##
 Installation is simple with [Composer](https://getcomposer.org/):
 
-    $ composer require silinternational/idp-id-broker-php-client
+    $ composer require sil-org/idp-id-broker-php-client
 
 
 ## Usage ##
