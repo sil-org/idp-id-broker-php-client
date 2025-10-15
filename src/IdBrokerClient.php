@@ -772,7 +772,7 @@ class IdBrokerClient extends BaseClient
      * @param array $config An array key/value pairs of attributes for the new
      *     email.
      * @return array An array of information about the email.
-     * @throws ServiceException
+     * @throws EmailServiceClientException
      */
     public function email(array $config = [])
     {
@@ -783,7 +783,14 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1503511660);
+        throw new EmailServiceClientException(
+            sprintf(
+                'Unexpected response: %s',
+                var_export($result, true)
+            ),
+            1503511660,
+            (int)$result['statusCode']
+        );
     }
 
     /**
