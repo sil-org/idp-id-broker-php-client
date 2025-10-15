@@ -322,3 +322,9 @@ Feature: Handling responses from the ID Broker API
     When I call searchUsersMasked with the necessary data
     Then the result should NOT contain a list of users' information
     And an exception SHOULD have been thrown
+
+  Scenario: Handling a successful email call
+    Given a call to "email" will return a 200 response
+    When I call email with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array

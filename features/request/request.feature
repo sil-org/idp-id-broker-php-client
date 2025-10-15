@@ -488,4 +488,32 @@ Feature: Formatting requests for sending to the ID Broker API
       And I have indicated not to validate the id broker ip
     When I call getSiteStatus
     Then the user agent should start with "IdpIdBrokerPhpClient/"
-     And the user agent should end with the current version of this library
+    And the user agent should end with the current version of this library
+
+  Scenario: Creating a email
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide a "to_address" of "test@domain.com"
+    And I provide a "cc_address" of "other@domain.com"
+    And I provide a "subject" of "Test Subject"
+    And I provide a "text_body" of "this is text"
+    And I provide a "html_body" of "<b>this is html</b>"
+# Normally `send_after` and `delay_seconds` would not be allowed together
+    And I provide a "send_after" of "1556819056"
+    And I provide a "delay_seconds" of "3600"
+    When I call email
+    Then the method should be "POST"
+    And the url should be "https://api.example.com/email"
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "to_address": "test@domain.com",
+          "cc_address": "other@domain.com",
+          "subject": "Test Subject",
+          "text_body": "this is text",
+          "html_body": "<b>this is html</b>",
+          "send_after": "1556819056",
+          "delay_seconds": "3600"
+        }
+        """

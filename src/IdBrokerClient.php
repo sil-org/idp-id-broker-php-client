@@ -1,10 +1,11 @@
 <?php
+
 namespace Sil\Idp\IdBroker\Client;
 
 use Exception;
 use GuzzleHttp\Command\Result;
-use IPLib\Range\RangeInterface;
 use IPLib\Factory;
+use IPLib\Range\RangeInterface;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
@@ -51,7 +52,7 @@ class IdBrokerClient extends BaseClient
     public function __construct(
         string $baseUri,
         string $accessToken,
-        array $config = [ ]
+        array  $config = []
     ) {
         if (empty($baseUri)) {
             throw new \InvalidArgumentException(
@@ -103,12 +104,12 @@ class IdBrokerClient extends BaseClient
     private function initializeConfig(array $config)
     {
 
-        if (isset($config[ self::ASSERT_VALID_BROKER_IP_CONFIG ])) {
-            $this->assertValidBrokerIp = $config[ self::ASSERT_VALID_BROKER_IP_CONFIG ];
+        if (isset($config[self::ASSERT_VALID_BROKER_IP_CONFIG])) {
+            $this->assertValidBrokerIp = $config[self::ASSERT_VALID_BROKER_IP_CONFIG];
         }
 
         // If we don't need to validate the Broker Ip, we're done here
-        if ( ! $this->assertValidBrokerIp) {
+        if (!$this->assertValidBrokerIp) {
             return;
         }
 
@@ -116,7 +117,7 @@ class IdBrokerClient extends BaseClient
          *  If we should validate the Broker IP but there aren't
          *  any trusted IPs, throw an exception
          */
-        if (empty($config[ self::TRUSTED_IPS_CONFIG ])) {
+        if (empty($config[self::TRUSTED_IPS_CONFIG])) {
             throw new \InvalidArgumentException(
                 'The config entry for ' . self::TRUSTED_IPS_CONFIG .
                 ' must be set (as an array) when ' .
@@ -130,8 +131,8 @@ class IdBrokerClient extends BaseClient
          * At this point, we need to validate the Broker Ip and we know
          * that the TRUSTED_IPS_CONFIG is not empty
          */
-        $newTrustedIpRanges = $config[ self::TRUSTED_IPS_CONFIG ];
-        if ( ! is_array($newTrustedIpRanges)) {
+        $newTrustedIpRanges = $config[self::TRUSTED_IPS_CONFIG];
+        if (!is_array($newTrustedIpRanges)) {
             throw new \InvalidArgumentException(
                 'The config entry for ' . self::TRUSTED_IPS_CONFIG .
                 ' must be an array, not ' . var_export($newTrustedIpRanges, true),
@@ -164,7 +165,7 @@ class IdBrokerClient extends BaseClient
             'password' => $password,
             'rpOrigin' => $rpOrigin,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -187,7 +188,7 @@ class IdBrokerClient extends BaseClient
         $result = $this->authenticateNewUserInternal([
             'invite' => $invite,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -206,10 +207,10 @@ class IdBrokerClient extends BaseClient
      * @return array An array of information about the new user.
      * @throws ServiceException
      */
-    public function createUser(array $config = [ ]): array
+    public function createUser(array $config = []): array
     {
         $result = $this->createUserInternal($config);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -230,7 +231,7 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employeeId,
             'active' => 'no',
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode !== 200) {
             $this->reportUnexpectedResponse($result, 1490808523);
@@ -245,7 +246,7 @@ class IdBrokerClient extends BaseClient
      */
     protected function getResultAsArrayWithoutStatusCode(Result $result): array
     {
-        unset($result[ 'statusCode' ]);
+        unset($result['statusCode']);
         return $result->toArray();
     }
 
@@ -258,7 +259,7 @@ class IdBrokerClient extends BaseClient
     public function getSiteStatus(): string
     {
         $result = $this->getSiteStatusInternal();
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if (($statusCode >= 200) && ($statusCode < 300)) {
             return 'OK';
@@ -280,7 +281,7 @@ class IdBrokerClient extends BaseClient
         $result = $this->getUserInternal([
             'employee_id' => $employeeId,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -303,13 +304,13 @@ class IdBrokerClient extends BaseClient
      */
     public function listUsers(array $fields = null, ?array $search = []): array
     {
-        $config = [ ];
+        $config = [];
         if ($fields !== null) {
-            $config[ 'fields' ] = join(',', $fields);
+            $config['fields'] = join(',', $fields);
         }
         $config = array_merge($config, $search);
         $result = $this->listUsersInternal($config);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -335,10 +336,10 @@ class IdBrokerClient extends BaseClient
             'type' => $type,
             'label' => $label,
             'rpOrigin' => $rpOrigin,
-            'recovery_email'=> $recovery_email
+            'recovery_email' => $recovery_email
         ]);
 
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -360,7 +361,7 @@ class IdBrokerClient extends BaseClient
             'id' => $id,
             'employee_id' => $employeeId,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204 || $statusCode === 200) {
             return null;
@@ -384,7 +385,7 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employeeId,
             'webauthn_id' => $webauthnID,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204 || $statusCode === 200) {
             return null;
@@ -406,7 +407,7 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employee_id,
             'rpOrigin' => $rpOrigin,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -430,7 +431,7 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employeeId,
             'label' => $label,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -456,7 +457,7 @@ class IdBrokerClient extends BaseClient
             'label' => $label,
             'webauthn_id' => $webauthnID,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -479,7 +480,7 @@ class IdBrokerClient extends BaseClient
     public function mfaVerify(
         string $id,
         string $employeeId,
-        $value,
+               $value,
         string $rpOrigin = '',
         string $type = '',
         string $label = ''
@@ -492,7 +493,7 @@ class IdBrokerClient extends BaseClient
         ];
 
         if ($type != '') {
-            if ( !empty($label)) {
+            if (!empty($label)) {
                 $config['label'] = $label;
             }
             $result = $this->mfaVerifyRegistrationInternal($config);
@@ -500,7 +501,7 @@ class IdBrokerClient extends BaseClient
             $result = $this->mfaVerifyInternal($config);
         }
 
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         /*
          * Accept a 204 for compatibility with earlier ID Broker versions
@@ -527,12 +528,12 @@ class IdBrokerClient extends BaseClient
     public function createMethod(string $employee_id, string $value, string $created = ''): array
     {
         $params = compact('employee_id', 'value');
-        if (! empty($created)) {
+        if (!empty($created)) {
             $params['created'] = $created;
         }
 
         $result = $this->createMethodInternal($params);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -551,7 +552,7 @@ class IdBrokerClient extends BaseClient
     public function deleteMethod(string $uid, string $employee_id)
     {
         $result = $this->deleteMethodInternal(compact('uid', 'employee_id'));
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204 || $statusCode === 200) {
             return null;
@@ -570,7 +571,7 @@ class IdBrokerClient extends BaseClient
     public function getMethod(string $uid, string $employee_id): array
     {
         $result = $this->getMethodInternal(compact('uid', 'employee_id'));
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -588,7 +589,7 @@ class IdBrokerClient extends BaseClient
     public function listMethod(string $employee_id): array
     {
         $result = $this->listMethodInternal(compact('employee_id'));
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -608,7 +609,7 @@ class IdBrokerClient extends BaseClient
     public function verifyMethod(string $uid, string $employee_id, string $code): array
     {
         $result = $this->verifyMethodInternal(compact('uid', 'employee_id', 'code'));
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -627,7 +628,7 @@ class IdBrokerClient extends BaseClient
     public function resendMethod(string $uid, string $employee_id): bool
     {
         $result = $this->resendMethodInternal(compact('uid', 'employee_id'));
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204 || $statusCode === 200) {
             return true;
@@ -674,7 +675,7 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employeeId,
             'password' => $password,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -699,7 +700,7 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employeeId,
             'password' => $password,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode >= 200 && $statusCode <= 299) {
             return true;
@@ -721,7 +722,7 @@ class IdBrokerClient extends BaseClient
                 var_export($response, true)
             ),
             $uniqueErrorCode,
-            (int)$response[ 'statusCode' ]
+            (int)$response['statusCode']
         );
     }
 
@@ -733,10 +734,10 @@ class IdBrokerClient extends BaseClient
      * @return array An array of information about the updated user.
      * @throws ServiceException
      */
-    public function updateUser(array $config = [ ]): array
+    public function updateUser(array $config = []): array
     {
         $result = $this->updateUserInternal($config);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
@@ -756,13 +757,40 @@ class IdBrokerClient extends BaseClient
         $result = $this->updateUserLastLoginInternal([
             'employee_id' => $employeeId,
         ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
         $this->reportUnexpectedResponse($result, 1490808841);
+    }
+
+    /**
+     * Create an email with the given information.
+     *
+     * @param array $config An array key/value pairs of attributes for the new
+     *     email.
+     * @return array An array of information about the email.
+     * @throws EmailServiceClientException
+     */
+    public function email(array $config = [])
+    {
+        $result = $this->emailInternal($config);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode >= 200 && $statusCode < 300) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        throw new EmailServiceClientException(
+            sprintf(
+                'Unexpected response: %s',
+                var_export($result, true)
+            ),
+            1503511660,
+            (int)$result['statusCode']
+        );
     }
 
     /**
@@ -782,7 +810,7 @@ class IdBrokerClient extends BaseClient
             );
         }
 
-        if (! $this->isTrustedIpAddress($idBrokerIp)) {
+        if (!$this->isTrustedIpAddress($idBrokerIp)) {
             throw new Exception(
                 'The Id Broker has an IP that is not trusted ... ' . $idBrokerIp,
                 1494531300

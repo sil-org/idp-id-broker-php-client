@@ -2,15 +2,16 @@
 
 namespace Sil\Idp\IdBroker\Client\features\request;
 
-use Behat\Gherkin\Node\TableNode;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Constraint\IsJson;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
@@ -41,7 +42,7 @@ class RequestContext implements Context
     public function __construct()
     {
     }
-    
+
     protected function assertSame($expected, $actual)
     {
         Assert::assertSame($expected, $actual, sprintf(
@@ -51,7 +52,7 @@ class RequestContext implements Context
             var_export($actual, true)
         ));
     }
-    
+
     protected function getHttpClientHandlerForTests()
     {
         $mockHandler = new MockHandler([
@@ -62,7 +63,7 @@ class RequestContext implements Context
         // Add a history middleware to the handler stack.
         $historyMiddleware = Middleware::history($this->requestHistory);
         $handlerStack->push($historyMiddleware);
-        
+
         return $handlerStack;
     }
 
@@ -85,7 +86,7 @@ class RequestContext implements Context
             $finalConfig
         );
     }
-    
+
     /**
      * @return Request
      */
@@ -131,7 +132,7 @@ class RequestContext implements Context
         $bodyText = (string)$request->getBody();
         Assert::assertThat($bodyText, new IsJson());
     }
-    
+
     /**
      * @Then the method should be :expectedMethod
      */
@@ -269,7 +270,7 @@ class RequestContext implements Context
             Assert::assertTrue(false, $msg);
         }
 
-        $this->assertSame((int) $expectedCode, $e->getCode());
+        $this->assertSame((int)$expectedCode, $e->getCode());
     }
 
     /**
@@ -382,7 +383,7 @@ class RequestContext implements Context
      */
     public function iCallUpdateuserlastlogin()
     {
-      $this->getIdBrokerClient()->updateUserLastLogin($this->requestData['employee_id']);
+        $this->getIdBrokerClient()->updateUserLastLogin($this->requestData['employee_id']);
     }
 
     /**
@@ -596,5 +597,11 @@ class RequestContext implements Context
         $actualUserAgents = $request->getHeader('User-Agent');
         $actualUserAgent = array_pop($actualUserAgents);
         Assert::assertStringEndsWith(IdBrokerClient::VERSION_MAJOR, $actualUserAgent);
+    }
+
+    #[When('I call email')]
+    public function iCallEmail()
+    {
+        $this->getIdBrokerClient()->email($this->requestData);
     }
 }
