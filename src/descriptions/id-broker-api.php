@@ -77,13 +77,13 @@
                 'active' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'locked' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'manager_email' => [
@@ -94,13 +94,13 @@
                 'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'hide' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'groups' => [
@@ -182,7 +182,7 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => [ 'backupcode', 'totp', 'u2f', 'webauthn', 'manager', 'recovery' ],
+                    'enum' => ['backupcode', 'totp', 'u2f', 'webauthn', 'manager', 'recovery'],
                 ],
                 'label' => [
                     'required' => false,
@@ -323,7 +323,7 @@
                 ],
                 'value' => [
                     'required' => true,
-                    'type' => [ 'string', 'object' ],
+                    'type' => ['string', 'object'],
                     'location' => 'json',
                 ],
                 'rpOrigin' => [
@@ -350,7 +350,7 @@
                 ],
                 'value' => [
                     'required' => true,
-                    'type' => [ 'string', 'object' ],
+                    'type' => ['string', 'object'],
                     'location' => 'json',
                 ],
                 'label' => [
@@ -378,7 +378,7 @@
                 'mask' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'query',
                 ],
             ]
@@ -455,13 +455,13 @@
                 'active' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'locked' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'manager_email' => [
@@ -472,13 +472,13 @@
                 'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'hide' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => [ 'yes', 'no' ],
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
                 'groups' => [
@@ -494,16 +494,16 @@
             ],
         ],
         'updateUserLastLoginInternal' => [
-          'httpMethod' => 'PUT',
-          'uri' => '/user/{employee_id}/update-last-login',
-          'responseModel' => 'Result',
-          'parameters' => [
-            'employee_id' => [
-                'required' => true,
-                'type' => 'string',
-                'location' => 'uri',
+            'httpMethod' => 'PUT',
+            'uri' => '/user/{employee_id}/update-last-login',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
             ],
-          ],
         ],
         'createMethodInternal' => [
             'httpMethod' => 'POST',
@@ -612,12 +612,59 @@
                 ],
             ],
         ],
+        'emailInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/email',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'to_address' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'cc_address' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'bcc_address' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'subject' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'text_body' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'html_body' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'send_after' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'delay_seconds' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
     ],
     'models' => [
         'Result' => [
             'type' => 'object',
             'properties' => [
-                'statusCode' => [ 'location' => 'statusCode' ],
+                'statusCode' => ['location' => 'statusCode'],
             ],
             'additionalProperties' => [
                 'location' => 'json'

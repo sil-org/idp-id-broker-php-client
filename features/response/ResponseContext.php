@@ -1,8 +1,10 @@
 <?php
+
 namespace Sil\Idp\IdBroker\Client\features\response;
 
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Step\When;
 use Exception;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -31,7 +33,7 @@ class ResponseContext implements Context
     private $response = null;
     private $result;
     private $exceptionThrown = null;
-    
+
     protected function getHttpClientHandlerForTests()
     {
         Assert::assertNotEmpty(
@@ -41,7 +43,7 @@ class ResponseContext implements Context
         $mockHandler = new MockHandler([$this->response]);
         return HandlerStack::create($mockHandler);
     }
-    
+
     /**
      * @return IdBrokerClient
      */
@@ -54,7 +56,7 @@ class ResponseContext implements Context
             IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG => false,
         ]);
     }
-    
+
     /**
      * @Given a call to :methodName will return a :statusCode with the following data:
      */
@@ -66,7 +68,7 @@ class ResponseContext implements Context
         $this->methodName = $methodName;
         $this->response = new Response($statusCode, [], (string)$responseData);
     }
-    
+
     /**
      * @Given a call to :methodName will return a :statusCode response
      */
@@ -127,7 +129,7 @@ class ResponseContext implements Context
             }
         }
     }
-    
+
     /**
      * @Then the result SHOULD contain user information
      */
@@ -145,7 +147,7 @@ class ResponseContext implements Context
     {
         Assert::assertArrayNotHasKey('message', $this->result);
     }
-    
+
     /**
      * @Then the result SHOULD contain an error message
      */
@@ -202,7 +204,7 @@ class ResponseContext implements Context
     {
         if (is_array($this->result)) {
             foreach ($this->result as $resultEntry) {
-                if ( ! is_array($resultEntry)) {
+                if (!is_array($resultEntry)) {
                     continue;
                 }
                 foreach ($this->userInfoFields as $fieldName) {
@@ -436,6 +438,22 @@ class ResponseContext implements Context
                 '123',
                 '111111'
             );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    #[When('I call email with the necessary data')]
+    public function iCallEmailWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->email([
+                "to_address" => "test@domain.com",
+                "cc_address" => "other@domain.com",
+                "subject" => "Test Subject",
+                "text_body" => "this is text",
+                "html_body" => "<b>this is html</b>",
+            ]);
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
