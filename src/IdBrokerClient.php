@@ -772,6 +772,7 @@ class IdBrokerClient extends BaseClient
      * @param array $config An array key/value pairs of attributes for the new
      *     email.
      * @return array An array of information about the email.
+     * @throws ServiceException
      */
     public function email(array $config = [])
     {
