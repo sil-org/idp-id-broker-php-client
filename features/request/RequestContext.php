@@ -12,9 +12,8 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\Constraint\IsJson;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
+use Webmozart\Assert\Assert;
 
 /**
  * Defines application features from the specific context.
@@ -45,7 +44,7 @@ class RequestContext implements Context
 
     protected function assertSame($expected, $actual)
     {
-        Assert::assertSame($expected, $actual, sprintf(
+        Assert::same($actual, $expected, sprintf(
             "Expected %s,\n"
             . "     not %s.",
             var_export($expected, true),
@@ -130,7 +129,10 @@ class RequestContext implements Context
     {
         $request = $this->getRequestFromHistory();
         $bodyText = (string)$request->getBody();
-        Assert::assertThat($bodyText, new IsJson());
+        Assert::notNull(json_decode($bodyText), sprintf(
+            'Expected valid JSON but got: %s',
+            $bodyText
+        ));
     }
 
     /**
@@ -150,7 +152,7 @@ class RequestContext implements Context
     {
         $request = $this->getRequestFromHistory();
         $bodyText = (string)$request->getBody();
-        Assert::assertNotContains($fieldName, $bodyText);
+        Assert::notContains($bodyText, $fieldName);
     }
 
     /**
@@ -219,7 +221,7 @@ class RequestContext implements Context
     {
         $request = $this->getRequestFromHistory();
         $headerLine = $request->getHeaderLine('Authorization');
-        Assert::assertContains('Bearer ', $headerLine);
+        Assert::contains($headerLine, 'Bearer ');
     }
 
     /**
@@ -228,9 +230,9 @@ class RequestContext implements Context
     public function theBodyShouldEqualTheFollowing(PyStringNode $expectedBodyText)
     {
         $request = $this->getRequestFromHistory();
-        Assert::assertJsonStringEqualsJsonString(
-            (string)$expectedBodyText,
-            (string)$request->getBody()
+        Assert::eq(
+            json_decode((string)$expectedBodyText, true),
+            json_decode((string)$request->getBody(), true)
         );
     }
 
@@ -267,7 +269,7 @@ class RequestContext implements Context
         if ($e === null) {
             $msg = 'Expected an exception with code ' . $expectedCode .
                 ' but did not get one at all.';
-            Assert::assertTrue(false, $msg);
+            Assert::true(false, $msg);
         }
 
         $this->assertSame((int)$expectedCode, $e->getCode());
@@ -284,7 +286,7 @@ class RequestContext implements Context
         if ($e === null) {
             $msg = 'Expected an exception with code ' . $expectedException .
                 ' but did not get one at all.';
-            Assert::assertTrue(false, $msg);
+            Assert::true(false, $msg);
         }
 
         $this->assertSame($expectedException, get_class($e));
@@ -587,7 +589,7 @@ class RequestContext implements Context
         $request = $this->getRequestFromHistory();
         $actualUserAgents = $request->getHeader('User-Agent');
         $actualUserAgent = array_pop($actualUserAgents);
-        Assert::assertStringStartsWith($expectedPrefix, $actualUserAgent);
+        Assert::startsWith($actualUserAgent, $expectedPrefix);
     }
 
     #[Then('the user agent should end with the current version of this library')]
@@ -596,7 +598,7 @@ class RequestContext implements Context
         $request = $this->getRequestFromHistory();
         $actualUserAgents = $request->getHeader('User-Agent');
         $actualUserAgent = array_pop($actualUserAgents);
-        Assert::assertStringEndsWith(IdBrokerClient::VERSION_MAJOR, $actualUserAgent);
+        Assert::endsWith($actualUserAgent, IdBrokerClient::VERSION_MAJOR);
     }
 
     #[When('I call email')]
