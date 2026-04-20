@@ -788,8 +788,7 @@ class IdBrokerClient extends BaseClient
                 'Unexpected response: %s',
                 var_export($result, true)
             ),
-            1503511660,
-            (int)$result['statusCode']
+            1503511660
         );
     }
 
