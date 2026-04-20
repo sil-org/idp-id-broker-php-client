@@ -129,7 +129,8 @@ class RequestContext implements Context
     {
         $request = $this->getRequestFromHistory();
         $bodyText = (string)$request->getBody();
-        Assert::notNull(json_decode($bodyText), sprintf(
+        json_decode($bodyText);
+        Assert::same(JSON_ERROR_NONE, json_last_error(), sprintf(
             'Expected valid JSON but got: %s',
             $bodyText
         ));
@@ -230,9 +231,21 @@ class RequestContext implements Context
     public function theBodyShouldEqualTheFollowing(PyStringNode $expectedBodyText)
     {
         $request = $this->getRequestFromHistory();
+        $expectedJson = (string)$expectedBodyText;
+        $actualJson = (string)$request->getBody();
+        json_decode($expectedJson);
+        Assert::same(JSON_ERROR_NONE, json_last_error(), sprintf(
+            'Expected body text is not valid JSON: %s',
+            $expectedJson
+        ));
+        json_decode($actualJson);
+        Assert::same(JSON_ERROR_NONE, json_last_error(), sprintf(
+            'Actual request body is not valid JSON: %s',
+            $actualJson
+        ));
         Assert::eq(
-            json_decode((string)$expectedBodyText, true),
-            json_decode((string)$request->getBody(), true)
+            json_decode($expectedJson, true),
+            json_decode($actualJson, true)
         );
     }
 
