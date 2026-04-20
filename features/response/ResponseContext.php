@@ -209,7 +209,7 @@ class ResponseContext implements Context
                 }
                 foreach ($this->userInfoFields as $fieldName) {
                     if (array_key_exists($fieldName, $resultEntry)) {
-                        Assert::true(false, 'Result should not contain a list of users\' information');
+                        Assert::true(false, "Result should not contain a list of users' information");
                     }
                 }
             }
