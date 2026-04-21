@@ -9,7 +9,7 @@ use Exception;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\Assert;
+use Webmozart\Assert\Assert;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
 use Sil\Idp\IdBroker\Client\ServiceException;
@@ -36,7 +36,7 @@ class ResponseContext implements Context
 
     protected function getHttpClientHandlerForTests()
     {
-        Assert::assertNotEmpty(
+        Assert::notEmpty(
             $this->response,
             'You need to define the response before you can pretend to call the API.'
         );
@@ -125,7 +125,7 @@ class ResponseContext implements Context
     {
         if (is_array($this->result)) {
             foreach ($this->userInfoFields as $fieldName) {
-                Assert::assertArrayNotHasKey($fieldName, $this->result);
+                Assert::keyNotExists($this->result, $fieldName);
             }
         }
     }
@@ -136,7 +136,7 @@ class ResponseContext implements Context
     public function theResultShouldContainUserInformation()
     {
         foreach ($this->userInfoFields as $fieldName) {
-            Assert::assertArrayHasKey($fieldName, $this->result);
+            Assert::keyExists($this->result, $fieldName);
         }
     }
 
@@ -145,7 +145,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldNotContainAnErrorMessage()
     {
-        Assert::assertArrayNotHasKey('message', $this->result);
+        Assert::keyNotExists($this->result, 'message');
     }
 
     /**
@@ -153,7 +153,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldContainAnErrorMessage()
     {
-        Assert::assertArrayHasKey('message', $this->result);
+        Assert::keyExists($this->result, 'message');
     }
 
     /**
@@ -193,7 +193,7 @@ class ResponseContext implements Context
                     break;
                 }
             }
-            Assert::assertTrue($foundSomeUserInfo);
+            Assert::true($foundSomeUserInfo);
         }
     }
 
@@ -209,7 +209,7 @@ class ResponseContext implements Context
                 }
                 foreach ($this->userInfoFields as $fieldName) {
                     if (array_key_exists($fieldName, $resultEntry)) {
-                        Assert::fail();
+                        Assert::true(false, "Result should not contain a list of users' information");
                     }
                 }
             }
@@ -298,7 +298,7 @@ class ResponseContext implements Context
      */
     public function anExceptionShouldNotHaveBeenThrown()
     {
-        Assert::assertNull($this->exceptionThrown);
+        Assert::null($this->exceptionThrown);
     }
 
     /**
@@ -306,7 +306,7 @@ class ResponseContext implements Context
      */
     public function anExceptionShouldHaveBeenThrown()
     {
-        Assert::assertInstanceOf(Exception::class, $this->exceptionThrown);
+        Assert::isInstanceOf($this->exceptionThrown, Exception::class);
     }
 
     /**
@@ -315,12 +315,12 @@ class ResponseContext implements Context
      */
     public function anExceptionWithStatusCodeShouldHaveBeenThrown($code)
     {
-        Assert::assertInstanceOf(ServiceException::class, $this->exceptionThrown);
+        Assert::isInstanceOf($this->exceptionThrown, ServiceException::class);
         /**
          * @var ServiceException $exception
          */
         $exception = $this->exceptionThrown;
-        Assert::assertEquals($code, $exception->httpStatusCode);
+        Assert::eq($exception->httpStatusCode, $code);
     }
 
     /**
@@ -328,7 +328,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldBeNull()
     {
-        Assert::assertNull($this->result);
+        Assert::null($this->result);
     }
 
     /**
@@ -336,7 +336,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldBeAnArray()
     {
-        Assert::assertInternalType('array', $this->result);
+        Assert::isArray($this->result);
     }
 
     /**
@@ -379,9 +379,9 @@ class ResponseContext implements Context
      */
     public function anMfaRateLimitExceptionShouldHaveBeenThrown()
     {
-        Assert::assertInstanceOf(
-            MfaRateLimitException::class,
-            $this->exceptionThrown
+        Assert::isInstanceOf(
+            $this->exceptionThrown,
+            MfaRateLimitException::class
         );
     }
 
@@ -390,7 +390,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldBeTrue()
     {
-        Assert::assertSame($this->result, true);
+        Assert::true($this->result);
     }
 
     /**
@@ -398,7 +398,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldBeFalse()
     {
-        Assert::assertSame($this->result, false);
+        Assert::false($this->result);
     }
 
     /**
