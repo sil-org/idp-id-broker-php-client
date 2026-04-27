@@ -619,4 +619,57 @@ class RequestContext implements Context
     {
         $this->getIdBrokerClient()->email($this->requestData);
     }
+
+    /**
+     * @When I call createReset
+     */
+    public function iCallCreateReset()
+    {
+        $this->getIdBrokerClient()->createReset(
+            $this->requestData['username']
+        );
+    }
+
+    /**
+     * @When I call getReset
+     */
+    public function iCallGetReset()
+    {
+        $this->getIdBrokerClient()->getReset(
+            $this->requestData['uid']
+        );
+    }
+
+    /**
+     * @When I call updateReset
+     */
+    public function iCallUpdateReset()
+    {
+        $this->getIdBrokerClient()->updateReset(
+            $this->requestData['uid'],
+            $this->requestData['type'],
+            $this->requestData['id'] ?? ''
+        );
+    }
+
+    /**
+     * @When I call resendReset
+     */
+    public function iCallResendReset()
+    {
+        $this->getIdBrokerClient()->resendReset(
+            $this->requestData['uid']
+        );
+    }
+
+    /**
+     * @When I call validateReset
+     */
+    public function iCallValidateReset()
+    {
+        $this->getIdBrokerClient()->validateReset(
+            $this->requestData['uid'],
+            $this->requestData['code']
+        );
+    }
 }

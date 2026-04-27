@@ -458,4 +458,70 @@ class ResponseContext implements Context
             $this->exceptionThrown = $e;
         }
     }
+
+    /**
+     * @When I call createReset with the necessary data
+     */
+    public function iCallCreateResetWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->createReset('john_smith');
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call getReset with the necessary data
+     */
+    public function iCallGetResetWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->getReset('aBcDeFgHiJkLmNoPqRsTuVwXyZ123456');
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call updateReset with the necessary data
+     */
+    public function iCallUpdateResetWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->updateReset(
+                'aBcDeFgHiJkLmNoPqRsTuVwXyZ123456',
+                'primary'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call resendReset with the necessary data
+     */
+    public function iCallResendResetWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->resendReset('aBcDeFgHiJkLmNoPqRsTuVwXyZ123456');
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call validateReset with the necessary data
+     */
+    public function iCallValidateResetWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->validateReset(
+                'aBcDeFgHiJkLmNoPqRsTuVwXyZ123456',
+                'RESETCODE1'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
 }

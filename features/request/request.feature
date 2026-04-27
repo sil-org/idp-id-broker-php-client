@@ -517,3 +517,86 @@ Feature: Formatting requests for sending to the ID Broker API
           "delay_seconds": "3600"
         }
         """
+
+  Scenario: Creating a password reset
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide a "username" of "john_smith"
+    When I call createReset
+    Then the method should be "POST"
+      And the url should be "https://api.example.com/reset"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "username": "john_smith"
+        }
+        """
+
+  Scenario: Getting a password reset
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide a "uid" of "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+    When I call getReset
+    Then the method should be "GET"
+      And the url should be "https://api.example.com/reset/aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+      And an authorization header should be present
+
+  Scenario: Updating a password reset type
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide a "uid" of "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+      And I provide a "type" of "primary"
+    When I call updateReset
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/reset/aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "type": "primary"
+        }
+        """
+
+  Scenario: Updating a password reset type to method with an id
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide a "uid" of "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+      And I provide a "type" of "method"
+      And I provide an "id" of "qRsTuVwXyZ123456aBcDeFgHiJkL7890"
+    When I call updateReset
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/reset/aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "type": "method",
+          "id": "qRsTuVwXyZ123456aBcDeFgHiJkL7890"
+        }
+        """
+
+  Scenario: Resending a password reset
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide a "uid" of "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+    When I call resendReset
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/reset/aBcDeFgHiJkLmNoPqRsTuVwXyZ123456/resend"
+      And an authorization header should be present
+
+  Scenario: Validating a password reset code
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide a "uid" of "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456"
+      And I provide a "code" of "RESETCODE1"
+    When I call validateReset
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/reset/aBcDeFgHiJkLmNoPqRsTuVwXyZ123456/validate"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "code": "RESETCODE1"
+        }
+        """

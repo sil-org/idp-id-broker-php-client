@@ -612,6 +612,82 @@
                 ],
             ],
         ],
+        'createResetInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/reset',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'username' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'getResetInternal' => [
+            'httpMethod' => 'GET',
+            'uri' => '/reset/{uid}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+            ],
+        ],
+        'updateResetInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/reset/{uid}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'type' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'enum' => ['primary', 'supervisor', 'method'],
+                    'location' => 'json',
+                ],
+                'id' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'resendResetInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/reset/{uid}/resend',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+            ],
+        ],
+        'validateResetInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/reset/{uid}/validate',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'code' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
         'emailInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/email',

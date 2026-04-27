@@ -793,6 +793,118 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Initiate a password reset for the given user.
+     *
+     * @param string $username The username (or email address) of the user.
+     * @return array An array with 'uid' and 'methods' properties.
+     * @throws ServiceException
+     */
+    public function createReset(string $username): array
+    {
+        $result = $this->createResetInternal([
+            'username' => $username,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1746000001);
+    }
+
+    /**
+     * Retrieve a password reset record by its uid.
+     *
+     * @param string $uid The uid of the reset record.
+     * @return array An array with 'uid' and 'methods' properties.
+     * @throws ServiceException
+     */
+    public function getReset(string $uid): array
+    {
+        $result = $this->getResetInternal([
+            'uid' => $uid,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1746000002);
+    }
+
+    /**
+     * Update the reset type/method and resend the verification email.
+     *
+     * @param string $uid The uid of the reset record.
+     * @param string $type The delivery type: 'primary', 'supervisor', or 'method'.
+     * @param string $id The uid of the Method record (required when type is 'method').
+     * @return array An array with 'uid' and 'methods' properties.
+     * @throws ServiceException
+     */
+    public function updateReset(string $uid, string $type, string $id = ''): array
+    {
+        $params = compact('uid', 'type');
+        if (!empty($id)) {
+            $params['id'] = $id;
+        }
+
+        $result = $this->updateResetInternal($params);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1746000003);
+    }
+
+    /**
+     * Resend the reset verification email.
+     *
+     * @param string $uid The uid of the reset record.
+     * @return array An array with 'uid' and 'methods' properties.
+     * @throws ServiceException
+     */
+    public function resendReset(string $uid): array
+    {
+        $result = $this->resendResetInternal([
+            'uid' => $uid,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1746000004);
+    }
+
+    /**
+     * Validate the reset code.
+     *
+     * @param string $uid The uid of the reset record.
+     * @param string $code The reset code to validate.
+     * @return bool True if the code is correct and the reset record has been deleted.
+     * @throws ServiceException On wrong code (400), expired reset (410), too many attempts (429), etc.
+     */
+    public function validateReset(string $uid, string $code): bool
+    {
+        $result = $this->validateResetInternal([
+            'uid' => $uid,
+            'code' => $code,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return true;
+        }
+
+        $this->reportUnexpectedResponse($result, 1746000005);
+    }
+
+    /**
      * Determine whether any of the Id-broker's IPs are not in the
      * trusted ranges
      *

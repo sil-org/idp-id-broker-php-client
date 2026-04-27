@@ -328,3 +328,125 @@ Feature: Handling responses from the ID Broker API
     When I call email with the necessary data
     Then an exception should NOT have been thrown
     And the result should be an array
+
+  Scenario: Handling a successful createReset call
+    Given a call to "createReset" will return a 200 with the following data:
+      """
+      {
+        "uid": "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456",
+        "methods": [
+          { "type": "primary", "value": "j****_s***h@e*******.c**" }
+        ]
+      }
+      """
+    When I call createReset with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array
+
+  Scenario: Handling a createReset call for a non-existent user
+    Given a call to "createReset" will return a 404 response
+    When I call createReset with the necessary data
+    Then an exception with status code 404 SHOULD have been thrown
+
+  Scenario: Handling a createReset call with bad request data
+    Given a call to "createReset" will return a 400 response
+    When I call createReset with the necessary data
+    Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling a successful getReset call
+    Given a call to "getReset" will return a 200 with the following data:
+      """
+      {
+        "uid": "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456",
+        "methods": [
+          { "type": "primary", "value": "j****_s***h@e*******.c**" }
+        ]
+      }
+      """
+    When I call getReset with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array
+
+  Scenario: Handling a getReset call for a non-existent reset
+    Given a call to "getReset" will return a 404 response
+    When I call getReset with the necessary data
+    Then an exception with status code 404 SHOULD have been thrown
+
+  Scenario: Handling a successful updateReset call
+    Given a call to "updateReset" will return a 200 with the following data:
+      """
+      {
+        "uid": "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456",
+        "methods": [
+          { "type": "primary", "value": "j****_s***h@e*******.c**" }
+        ]
+      }
+      """
+    When I call updateReset with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array
+
+  Scenario: Handling an updateReset call with bad request data
+    Given a call to "updateReset" will return a 400 response
+    When I call updateReset with the necessary data
+    Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling an updateReset call for a non-existent reset
+    Given a call to "updateReset" will return a 404 response
+    When I call updateReset with the necessary data
+    Then an exception with status code 404 SHOULD have been thrown
+
+  Scenario: Handling an updateReset call with too many attempts
+    Given a call to "updateReset" will return a 429 response
+    When I call updateReset with the necessary data
+    Then an exception with status code 429 SHOULD have been thrown
+
+  Scenario: Handling a successful resendReset call
+    Given a call to "resendReset" will return a 200 with the following data:
+      """
+      {
+        "uid": "aBcDeFgHiJkLmNoPqRsTuVwXyZ123456",
+        "methods": [
+          { "type": "primary", "value": "j****_s***h@e*******.c**" }
+        ]
+      }
+      """
+    When I call resendReset with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array
+
+  Scenario: Handling a resendReset call for a non-existent reset
+    Given a call to "resendReset" will return a 404 response
+    When I call resendReset with the necessary data
+    Then an exception with status code 404 SHOULD have been thrown
+
+  Scenario: Handling a resendReset call with too many attempts
+    Given a call to "resendReset" will return a 429 response
+    When I call resendReset with the necessary data
+    Then an exception with status code 429 SHOULD have been thrown
+
+  Scenario: Handling a successful validateReset call
+    Given a call to "validateReset" will return a 200 response
+    When I call validateReset with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be true
+
+  Scenario: Handling a validateReset call with wrong code
+    Given a call to "validateReset" will return a 400 response
+    When I call validateReset with the necessary data
+    Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling a validateReset call for a non-existent reset
+    Given a call to "validateReset" will return a 404 response
+    When I call validateReset with the necessary data
+    Then an exception with status code 404 SHOULD have been thrown
+
+  Scenario: Handling a validateReset call with an expired reset
+    Given a call to "validateReset" will return a 410 response
+    When I call validateReset with the necessary data
+    Then an exception with status code 410 SHOULD have been thrown
+
+  Scenario: Handling a validateReset call with too many attempts
+    Given a call to "validateReset" will return a 429 response
+    When I call validateReset with the necessary data
+    Then an exception with status code 429 SHOULD have been thrown
