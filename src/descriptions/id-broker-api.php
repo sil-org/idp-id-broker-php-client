@@ -97,12 +97,6 @@
                     'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
-                'hide' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'enum' => ['yes', 'no'],
-                    'location' => 'json',
-                ],
                 'groups' => [
                     'required' => false,
                     'type' => 'string',
@@ -470,12 +464,6 @@
                     'location' => 'json',
                 ],
                 'require_mfa' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'enum' => ['yes', 'no'],
-                    'location' => 'json',
-                ],
-                'hide' => [
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],

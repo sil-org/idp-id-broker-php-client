@@ -30,7 +30,6 @@ Feature: Handling responses from the ID Broker API
         "email": "john_smith@example.com",
         "active": "yes",
         "locked": "no",
-        "hide": "no",
         "mfa": {
           "prompt": "no",
           "add": "yes",
@@ -88,7 +87,6 @@ Feature: Handling responses from the ID Broker API
         "email": "john_smith@example.com",
         "active": "yes",
         "locked": "no",
-        "hide": "no",
         "mfa": {
           "prompt": "no",
           "add": "yes",
