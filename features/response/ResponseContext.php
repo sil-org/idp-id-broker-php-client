@@ -9,10 +9,10 @@ use Exception;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Webmozart\Assert\Assert;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
 use Sil\Idp\IdBroker\Client\ServiceException;
+use Webmozart\Assert\Assert;
 
 /**
  * Defines application features from the specific context.
@@ -454,6 +454,16 @@ class ResponseContext implements Context
                 "text_body" => "this is text",
                 "html_body" => "<b>this is html</b>",
             ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    #[When('I call createReset with the necessary data')]
+    public function iCallCreateResetWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->createReset('john_smith');
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }

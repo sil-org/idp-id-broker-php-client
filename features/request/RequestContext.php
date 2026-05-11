@@ -619,4 +619,12 @@ class RequestContext implements Context
     {
         $this->getIdBrokerClient()->email($this->requestData);
     }
+
+    #[When('I call createReset')]
+    public function iCallCreateReset()
+    {
+        $this->getIdBrokerClient()->createReset(
+            $this->requestData['username']
+        );
+    }
 }

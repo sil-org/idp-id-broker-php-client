@@ -2,14 +2,14 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Checking site status without validating the id broker ip address
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
+    And I have indicated not to validate the id broker ip
     When I call getSiteStatus
     Then the method should be "GET"
-      And the url should be "https://api.example.com/site/status"
+    And the url should be "https://api.example.com/site/status"
 
   Scenario: Checking site status with trusted id-broker
-   Given I am using a trusted baseUri
-     And I have indicated that I want the id broker ip to be validated
+    Given I am using a trusted baseUri
+    And I have indicated that I want the id broker ip to be validated
     When I call getSiteStatus
     Then the method should be "GET"
     And the url should be "https://trusted_host.org/site/status"
@@ -21,27 +21,27 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Checking client with a single trusted ip block value
     Given I have not indicated whether the id broker ip should be validated
-      And I am using a single value for a trusted ip block
+    And I am using a single value for a trusted ip block
     When I create the idBrokerClient
     Then an InvalidArgument exception will be thrown
 
   Scenario: Checking client with the assert_valid_broker_ip not given and the trusted_ip_ranges value missing
     Given I am using a baseUri of "https://api.example.com/"
-      And I have not indicated whether the id broker ip should be validated
+    And I have not indicated whether the id broker ip should be validated
     When I create the idBrokerClient
     Then an InvalidArgument exception will be thrown
 
   Scenario: Authentication
     Given I am using a baseUri of "https://api.example.com/"
-      And I have provided an rpOrigin of "https://login.example.com"
-      And I have indicated not to validate the id broker ip
-      And I provide a "username" of "john_smith"
-      And I provide a "password" of "correcthorsebatterystaple"
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I have indicated not to validate the id broker ip
+    And I provide a "username" of "john_smith"
+    And I provide a "password" of "correcthorsebatterystaple"
     When I call authenticate
     Then the method should be "POST"
-      And the url should be "https://api.example.com/authentication?rpOrigin=https%3A%2F%2Flogin.example.com"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/authentication?rpOrigin=https%3A%2F%2Flogin.example.com"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "username": "john_smith",
@@ -51,13 +51,13 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Authentication for new user
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "invite" of "xyz789"
+    And I have indicated not to validate the id broker ip
+    And I provide an "invite" of "xyz789"
     When I call authenticateNewUser
     Then the method should be "POST"
-      And the url should be "https://api.example.com/authentication"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/authentication"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "invite": "xyz789"
@@ -66,21 +66,21 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Creating a user
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "12345"
-      And I provide a "first_name" of "John"
-      And I provide a "last_name" of "Smith"
-      And I provide a "username" of "john_smith"
-      And I provide an "email" of "john_smith@example.com"
-      And I provide a "locked" of "no"
-      And I provide an "active" of "yes"
-      And I provide a "manager_email" of "manager@example.com"
-      And I provide a "require_mfa" of "no"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "12345"
+    And I provide a "first_name" of "John"
+    And I provide a "last_name" of "Smith"
+    And I provide a "username" of "john_smith"
+    And I provide an "email" of "john_smith@example.com"
+    And I provide a "locked" of "no"
+    And I provide an "active" of "yes"
+    And I provide a "manager_email" of "manager@example.com"
+    And I provide a "require_mfa" of "no"
     When I call createUser
     Then the method should be "POST"
-      And the url should be "https://api.example.com/user"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/user"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "12345",
@@ -97,18 +97,18 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Updating a user
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "12345"
-      And I provide a "display_name" of "Johnny"
-      And I provide a "locked" of "yes"
-      And I provide an "active" of "yes"
-      And I provide a "manager_email" of "manager@example.com"
-      And I provide a "require_mfa" of "yes"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "12345"
+    And I provide a "display_name" of "Johnny"
+    And I provide a "locked" of "yes"
+    And I provide an "active" of "yes"
+    And I provide a "manager_email" of "manager@example.com"
+    And I provide a "require_mfa" of "yes"
     When I call updateUser
     Then the method should be "PUT"
-      And the url should be "https://api.example.com/user/12345"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/user/12345"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "display_name": "Johnny",
@@ -121,18 +121,18 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Updating a user and sending null values
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "12345"
-      And I provide a "display_name" of "Johnny"
-      And I provide a "locked" of "yes"
-      And I provide an "active" of "yes"
-      And I provide a "manager_email" of null
-      And I provide a "require_mfa" of "yes"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "12345"
+    And I provide a "display_name" of "Johnny"
+    And I provide a "locked" of "yes"
+    And I provide an "active" of "yes"
+    And I provide a "manager_email" of null
+    And I provide a "require_mfa" of "yes"
     When I call updateUser
     Then the method should be "PUT"
-      And the url should be "https://api.example.com/user/12345"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/user/12345"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "display_name": "Johnny",
@@ -145,66 +145,66 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Updating a users last_login_utc
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "12345"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "12345"
     When I call updateUserLastLogin
     Then the method should be "PUT"
-      And the url should be "https://api.example.com/user/12345/update-last-login"
-      And an authorization header should be present
-      
+    And the url should be "https://api.example.com/user/12345/update-last-login"
+    And an authorization header should be present
+
   Scenario: Deactivating a user
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "123"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
     When I call deactivateUser
     Then the method should be "PUT"
-      And the url should be "https://api.example.com/user/123"
-      And an authorization header should be present
-      And the body should be '{"active":"no"}'
+    And the url should be "https://api.example.com/user/123"
+    And an authorization header should be present
+    And the body should be '{"active":"no"}'
 
   Scenario: Getting a user
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "123"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
     When I call getUser
     Then the method should be "GET"
-      And the url should be 'https://api.example.com/user/123'
-      And an authorization header should be present
+    And the url should be 'https://api.example.com/user/123'
+    And an authorization header should be present
 
   Scenario: Listing users
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
+    And I have indicated not to validate the id broker ip
     When I call listUsers
     Then the method should be "GET"
-      And the url should be 'https://api.example.com/user'
+    And the url should be 'https://api.example.com/user'
 
   Scenario: Listing users, but limiting returned fields
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
+    And I have indicated not to validate the id broker ip
     When I call listUsers and ask for these fields:
-        | fieldName   |
-        | employee_id |
-        | active      |
+      | fieldName   |
+      | employee_id |
+      | active      |
     Then the method should be "GET"
-      And the url should be 'https://api.example.com/user?fields=employee_id%2Cactive'
+    And the url should be 'https://api.example.com/user?fields=employee_id%2Cactive'
 
   Scenario: Searching users and masking personal info in results
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
+    And I have indicated not to validate the id broker ip
     When I call searchUsersMasked to search for "john_smith"
     Then the method should be "GET"
-      And the url should be 'https://api.example.com/user?search=john_smith&mask=yes'
+    And the url should be 'https://api.example.com/user?search=john_smith&mask=yes'
 
   Scenario: Setting a password
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "123"
-      And I provide a "password" of "correcthorsebatterystaple"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide a "password" of "correcthorsebatterystaple"
     When I call setPassword
     Then the method should be "PUT"
-      And the url should be 'https://api.example.com/user/123/password'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/user/123/password'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "password": "correcthorsebatterystaple"
@@ -321,16 +321,16 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Creating an mfa option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I have provided an rpOrigin of "https://login.example.com"
-      And I provide an "employee_id" of "12345"
-      And I provide a "type" of "webauthn"
-      And I provide a "label" of "Blue security key"
+    And I have indicated not to validate the id broker ip
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I provide an "employee_id" of "12345"
+    And I provide a "type" of "webauthn"
+    And I provide a "label" of "Blue security key"
     When I call mfaCreate
     Then the method should be "POST"
-      And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "12345",
@@ -342,17 +342,17 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Creating an mfa recovery option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I have provided an rpOrigin of "https://login.example.com"
-      And I provide an "employee_id" of "12345"
-      And I provide a "type" of "recovery"
-      And I provide a "label" of "Blue security key"
-      And I provide a "recovery_email" of "recovery@example.com"
+    And I have indicated not to validate the id broker ip
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I provide an "employee_id" of "12345"
+    And I provide a "type" of "recovery"
+    And I provide a "label" of "Blue security key"
+    And I provide a "recovery_email" of "recovery@example.com"
     When I call mfaCreate
     Then the method should be "POST"
-      And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "12345",
@@ -364,14 +364,14 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Deleting an mfa option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "123"
-      And I provide an "id" of "789"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide an "id" of "789"
     When I call mfaDelete
     Then the method should be "DELETE"
-      And the url should be 'https://api.example.com/mfa/789'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/mfa/789'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "123"
@@ -380,15 +380,15 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Deleting an mfa webauthn option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "123"
-      And I provide an "id" of "456"
-      And I provide an "webauthn_id" of "789"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide an "id" of "456"
+    And I provide an "webauthn_id" of "789"
     When I call mfaDeleteWebauthn
     Then the method should be "DELETE"
-      And the url should be 'https://api.example.com/mfa/456/webauthn/789'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/mfa/456/webauthn/789'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "123"
@@ -397,25 +397,25 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Listing mfa options
     Given I am using a baseUri of "https://api.example.com/"
-      And I have provided an rpOrigin of "https://login.example.com"
-      And I have indicated not to validate the id broker ip
-      And I provide an "employee_id" of "123"
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
     When I call mfaList
     Then the method should be "GET"
-      And the url should be "https://api.example.com/user/123/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
-      And an authorization header should be present
+    And the url should be "https://api.example.com/user/123/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+    And an authorization header should be present
 
   Scenario: Update an mfa option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "id" of "789"
-      And I provide an "employee_id" of "123"
-      And I provide an "label" of "Authy1"
+    And I have indicated not to validate the id broker ip
+    And I provide an "id" of "789"
+    And I provide an "employee_id" of "123"
+    And I provide an "label" of "Authy1"
     When I call mfaUpdate
     Then the method should be "PUT"
-      And the url should be 'https://api.example.com/mfa/789'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/mfa/789'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "123",
@@ -425,16 +425,16 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Update an mfa webauthn option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
-      And I provide an "id" of "456"
-      And I provide an "employee_id" of "123"
-      And I provide an "label" of "Purple security key"
-      And I provide an "webauthn_id" of "789"
+    And I have indicated not to validate the id broker ip
+    And I provide an "id" of "456"
+    And I provide an "employee_id" of "123"
+    And I provide an "label" of "Purple security key"
+    And I provide an "webauthn_id" of "789"
     When I call mfaUpdateWebauthn
     Then the method should be "PUT"
-      And the url should be 'https://api.example.com/mfa/456/webauthn/789'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/mfa/456/webauthn/789'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "123",
@@ -444,16 +444,16 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Verifying an mfa option
     Given I am using a baseUri of "https://api.example.com/"
-      And I have provided an rpOrigin of "https://login.example.com"
-      And I have indicated not to validate the id broker ip
-      And I provide an "id" of "789"
-      And I provide an "employee_id" of "123"
-      And I provide a "value" of "01234987"
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I have indicated not to validate the id broker ip
+    And I provide an "id" of "789"
+    And I provide an "employee_id" of "123"
+    And I provide a "value" of "01234987"
     When I call mfaVerify
     Then the method should be "POST"
-      And the url should be 'https://api.example.com/mfa/789/verify?rpOrigin=https%3A%2F%2Flogin.example.com'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/mfa/789/verify?rpOrigin=https%3A%2F%2Flogin.example.com'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "123",
@@ -464,17 +464,17 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Verifying an mfa registration
     Given I am using a baseUri of "https://api.example.com/"
-      And I have provided an rpOrigin of "https://login.example.com"
-      And I have indicated not to validate the id broker ip
-      And I provide an "id" of "789"
-      And I provide an "employee_id" of "123"
-      And I provide a "value" of "01234987"
-      And I provide a "label" of "Yubikey"
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I have indicated not to validate the id broker ip
+    And I provide an "id" of "789"
+    And I provide an "employee_id" of "123"
+    And I provide a "value" of "01234987"
+    And I provide a "label" of "Yubikey"
     When I call mfaVerifyRegistration
     Then the method should be "POST"
-      And the url should be 'https://api.example.com/mfa/789/verify/registration?rpOrigin=https%3A%2F%2Flogin.example.com'
-      And an authorization header should be present
-      And the body should equal the following:
+    And the url should be 'https://api.example.com/mfa/789/verify/registration?rpOrigin=https%3A%2F%2Flogin.example.com'
+    And an authorization header should be present
+    And the body should equal the following:
         """
         {
           "employee_id": "123",
@@ -485,7 +485,7 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Ensuring the correct User-Agent is used
     Given I am using a baseUri of "https://api.example.com/"
-      And I have indicated not to validate the id broker ip
+    And I have indicated not to validate the id broker ip
     When I call getSiteStatus
     Then the user agent should start with "IdpIdBrokerPhpClient/"
     And the user agent should end with the current version of this library
@@ -515,5 +515,20 @@ Feature: Formatting requests for sending to the ID Broker API
           "html_body": "<b>this is html</b>",
           "send_after": "1556819056",
           "delay_seconds": "3600"
+        }
+        """
+
+  Scenario: Creating a password reset
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide a "username" of "john_smith"
+    When I call createReset
+    Then the method should be "POST"
+    And the url should be "https://api.example.com/reset"
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "username": "john_smith"
         }
         """
