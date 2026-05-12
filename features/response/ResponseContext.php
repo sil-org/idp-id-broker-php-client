@@ -463,7 +463,7 @@ class ResponseContext implements Context
     public function iCallCreateResetWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->createReset('john_smith');
+            $this->getIdBrokerClient()->createReset('john_smith');
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
