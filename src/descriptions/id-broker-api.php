@@ -671,6 +671,18 @@
                 ],
             ],
         ],
+        'verifyResetInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/reset/{uuid}/verify',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uuid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+            ],
+        ],
     ],
     'models' => [
         'Result' => [
