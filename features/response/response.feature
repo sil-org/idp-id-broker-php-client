@@ -45,8 +45,8 @@ Feature: Handling responses from the ID Broker API
       """
     When I call authenticate with the necessary data
     Then the result SHOULD contain user information
-      And the result should be an array
-      And an exception should NOT have been thrown
+    And the result should be an array
+    And an exception should NOT have been thrown
 
   Scenario: Handling an unsuccessful authentication
     Given a call to "authenticate" will return a 400 with the following data:
@@ -60,7 +60,7 @@ Feature: Handling responses from the ID Broker API
       """
     When I call authenticate with the necessary data
     Then the result should be null
-      And an exception should NOT have been thrown
+    And an exception should NOT have been thrown
 
   Scenario: Handling an authentication call that errors out
     Given a call to "authenticate" will return a 500 with the following data:
@@ -74,7 +74,7 @@ Feature: Handling responses from the ID Broker API
       """
     When I call authenticate with the necessary data
     Then the result should NOT contain user information
-      And an exception SHOULD have been thrown
+    And an exception SHOULD have been thrown
 
   Scenario: Handling a successful new user authentication
     Given a call to "authenticate" will return a 200 with the following data:
@@ -155,14 +155,14 @@ Feature: Handling responses from the ID Broker API
       """
     When I call getUser with the necessary data
     Then the result SHOULD contain user information
-      And the result should be an array
-      And an exception should NOT have been thrown
+    And the result should be an array
+    And an exception should NOT have been thrown
 
   Scenario: Handling a getUser call for a non-existent user
     Given a call to "getUser" will return a 204 response
     When I call getUser with the necessary data
     Then the result should be null
-      And an exception should NOT have been thrown
+    And an exception should NOT have been thrown
 
   Scenario: Handling a successful listUsers call
     Given a call to "listUsers" will return a 200 with the following data:
@@ -174,8 +174,8 @@ Feature: Handling responses from the ID Broker API
       """
     When I call listUsers with the necessary data
     Then the result SHOULD contain a list of users' information
-      And the result should be an array
-      And an exception should NOT have been thrown
+    And the result should be an array
+    And an exception should NOT have been thrown
 
   Scenario: Handling a listUsers call that errors out
     Given a call to "listUsers" will return a 500 with the following data:
@@ -189,19 +189,19 @@ Feature: Handling responses from the ID Broker API
       """
     When I call listUsers with the necessary data
     Then the result should NOT contain a list of users' information
-      And an exception SHOULD have been thrown
+    And an exception SHOULD have been thrown
 
   Scenario: Handling a successful createUser call
     Given a call to "createUser" will return a 200 response
     When I call createUser with the necessary data
     Then an exception should NOT have been thrown
-      And the result should be an array
+    And the result should be an array
 
   Scenario: Handling a successful updateUser call
     Given a call to "updateUser" will return a 200 response
     When I call updateUser with the necessary data
     Then an exception should NOT have been thrown
-      And the result should be an array
+    And the result should be an array
 
   Scenario: Handling a successful setPassword call
     Given a call to "setPassword" will return a 200 response
@@ -328,3 +328,13 @@ Feature: Handling responses from the ID Broker API
     When I call email with the necessary data
     Then an exception should NOT have been thrown
     And the result should be an array
+
+  Scenario: Handling a successful createReset call
+    Given a call to "createReset" will return a 204 response
+    When I call createReset with the necessary data
+    Then an exception should NOT have been thrown
+
+  Scenario: Handling a createReset call with bad request data
+    Given a call to "createReset" will return a 400 response
+    When I call createReset with the necessary data
+    Then an exception with status code 400 SHOULD have been thrown

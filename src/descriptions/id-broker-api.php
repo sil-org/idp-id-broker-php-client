@@ -659,6 +659,18 @@
                 ],
             ],
         ],
+        'createResetInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/reset',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'username' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
     ],
     'models' => [
         'Result' => [

@@ -793,6 +793,26 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Initiate a password reset for the given user.
+     *
+     * @param string $username The username (or email address) of the user.
+     * @throws ServiceException
+     */
+    public function createReset(string $username): void
+    {
+        $result = $this->createResetInternal([
+            'username' => $username,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204 || $statusCode === 200) {
+            return;
+        }
+
+        $this->reportUnexpectedResponse($result, 1778480653);
+    }
+
+    /**
      * Determine whether any of the Id-broker's IPs are not in the
      * trusted ranges
      *
