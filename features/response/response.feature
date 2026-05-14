@@ -338,3 +338,14 @@ Feature: Handling responses from the ID Broker API
     Given a call to "createReset" will return a 400 response
     When I call createReset with the necessary data
     Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling a successful verifyReset call
+    Given a call to "verifyReset" will return a 200 response
+    When I call verifyReset
+    Then an exception should NOT have been thrown
+
+  Scenario: Handling a "not found" verifyReset call
+    Given a call to "verifyReset" will return a 404 response
+    When I call verifyReset
+    Then an exception with status code 404 SHOULD have been thrown
+

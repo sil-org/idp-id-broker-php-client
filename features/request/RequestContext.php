@@ -627,4 +627,12 @@ class RequestContext implements Context
             $this->requestData['username']
         );
     }
+
+    #[When('I call verifyReset')]
+    public function iCallVerifyReset()
+    {
+        $this->getIdBrokerClient()->verifyReset(
+            $this->requestData['uuid']
+        );
+    }
 }

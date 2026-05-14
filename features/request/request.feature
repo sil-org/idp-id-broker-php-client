@@ -532,3 +532,12 @@ Feature: Formatting requests for sending to the ID Broker API
           "username": "john_smith"
         }
         """
+
+  Scenario: Verifying a password reset
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide a "uuid" of "00000000-0000-0000-0000-000000000000"
+    When I call verifyReset
+    Then the method should be "PUT"
+    And the url should be "https://api.example.com/reset/00000000-0000-0000-0000-000000000000/verify"
+    And an authorization header should be present

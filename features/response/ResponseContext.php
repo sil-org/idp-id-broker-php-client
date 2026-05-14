@@ -468,4 +468,14 @@ class ResponseContext implements Context
             $this->exceptionThrown = $e;
         }
     }
+
+    #[When('I call verifyReset')]
+    public function iCallVerifyreset(): void
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->verifyReset('00000000-0000-0000-0000-000000000000');
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
 }

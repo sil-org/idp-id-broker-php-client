@@ -813,6 +813,26 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Verify a password reset.
+     *
+     * @param string $uuid The UUID of the password reset.
+     * @throws ServiceException
+     */
+    public function verifyReset(string $uuid): array
+    {
+        $result = $this->verifyResetInternal([
+            'uuid' => $uuid,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204 || $statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1778480653);
+    }
+
+    /**
      * Determine whether any of the Id-broker's IPs are not in the
      * trusted ranges
      *
