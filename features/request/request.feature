@@ -522,6 +522,7 @@ Feature: Formatting requests for sending to the ID Broker API
     Given I am using a baseUri of "https://api.example.com/"
     And I have indicated not to validate the id broker ip
     And I provide a "username" of "john_smith"
+    And I provide a "include_manager" of "yes"
     When I call createReset
     Then the method should be "POST"
     And the url should be "https://api.example.com/reset"
@@ -529,7 +530,8 @@ Feature: Formatting requests for sending to the ID Broker API
     And the body should equal the following:
         """
         {
-          "username": "john_smith"
+          "username": "john_smith",
+          "include_manager": "yes"
         }
         """
 
