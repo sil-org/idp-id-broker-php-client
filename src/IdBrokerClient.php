@@ -798,9 +798,10 @@ class IdBrokerClient extends BaseClient
      * @param string $username The username (or email address) of the user.
      * @throws ServiceException
      */
-    public function createReset(string $username): void
+    public function createReset(string $username, string $include_manager = 'no'): void
     {
         $result = $this->createResetInternal([
+            'include_manager' => $include_manager,
             'username' => $username,
         ]);
         $statusCode = (int)$result['statusCode'];

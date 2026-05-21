@@ -623,9 +623,16 @@ class RequestContext implements Context
     #[When('I call createReset')]
     public function iCallCreateReset()
     {
-        $this->getIdBrokerClient()->createReset(
-            $this->requestData['username']
-        );
+        if (empty($this->requestData['include_manager'])) {
+            $this->getIdBrokerClient()->createReset(
+                $this->requestData['username'],
+            );
+        } else {
+            $this->getIdBrokerClient()->createReset(
+                $this->requestData['username'],
+                $this->requestData['include_manager'],
+            );
+        }
     }
 
     #[When('I call verifyReset')]

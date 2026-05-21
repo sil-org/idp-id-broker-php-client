@@ -669,6 +669,12 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'include_manager' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
             ],
         ],
         'verifyResetInternal' => [
