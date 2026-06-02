@@ -166,6 +166,11 @@
                     'type' => 'string',
                     'location' => 'query',
                 ],
+                'token_hash' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
             ]
         ],
         'mfaCreateInternal' => [
@@ -487,6 +492,21 @@
                     'location' => 'json',
                 ],
                 'personal_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'token_hash' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'token_expiry_utc' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'token_type' => [
                     'required' => false,
                     'type' => 'string',
                     'location' => 'json',
