@@ -642,6 +642,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'to_name' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
                 'cc_address' => [
                     'required' => false,
                     'type' => 'string',
