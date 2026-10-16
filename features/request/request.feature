@@ -494,6 +494,7 @@ Feature: Formatting requests for sending to the ID Broker API
     Given I am using a baseUri of "https://api.example.com/"
     And I have indicated not to validate the id broker ip
     And I provide a "to_address" of "test@domain.com"
+    And I provide a "to_name" of "Test Name"
     And I provide a "cc_address" of "other@domain.com"
     And I provide a "subject" of "Test Subject"
     And I provide a "text_body" of "this is text"
@@ -509,6 +510,7 @@ Feature: Formatting requests for sending to the ID Broker API
         """
         {
           "to_address": "test@domain.com",
+          "to_name": "Test Name",
           "cc_address": "other@domain.com",
           "subject": "Test Subject",
           "text_body": "this is text",
