@@ -1,0 +1,17 @@
+{
+  "sandbox": {
+    "filesystem": {
+      "allowRead": ["."],
+      "denyRead": [
+        "./.env",
+        "./auth.json"
+      ]
+    }
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./auth.json)"
+    ]
+  }
+}

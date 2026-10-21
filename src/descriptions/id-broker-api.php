@@ -403,6 +403,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'temporary' => [
+                    'required' => false,
+                    'type' => 'boolean',
+                    'location' => 'json',
+                ],
             ],
         ],
         'assessPasswordInternal' => [
