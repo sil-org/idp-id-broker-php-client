@@ -370,7 +370,8 @@ class RequestContext implements Context
     {
         $this->getIdBrokerClient()->setPassword(
             $this->requestData['employee_id'],
-            $this->requestData['password']
+            $this->requestData['password'],
+            ($this->requestData['temporary'] ?? 'false') === 'true'
         );
     }
 

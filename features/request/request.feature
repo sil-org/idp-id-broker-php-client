@@ -211,6 +211,24 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
+  Scenario: Setting a temporary password
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide a "password" of "correcthorsebatterystaple"
+    And I provide a "temporary" of "true"
+    When I call setPassword
+    Then the method should be "PUT"
+    And the url should be 'https://api.example.com/user/123/password'
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "password": "correcthorsebatterystaple",
+          "temporary": true
+        }
+        """
+
   Scenario: Validating a password
     Given I am using a baseUri of "https://api.example.com/"
     And I have indicated not to validate the id broker ip

@@ -665,16 +665,23 @@ class IdBrokerClient extends BaseClient
      * @param string $employeeId The Employee ID of the user whose password we
      *     are trying to set.
      * @param string $password The desired (new) password, in plaintext.
+     * @param bool $temporary Whether the password should expire at the end of
+     *     the next day (UTC), with no grace period. ID Brokers without
+     *     support for this (before sil-org/idp-id-broker#523) ignore it.
      *
      * @return array An array of password metadata
      * @throws ServiceException
      */
-    public function setPassword(string $employeeId, string $password): array
+    public function setPassword(string $employeeId, string $password, bool $temporary = false): array
     {
-        $result = $this->setPasswordInternal([
+        $params = [
             'employee_id' => $employeeId,
             'password' => $password,
-        ]);
+        ];
+        if ($temporary) {
+            $params['temporary'] = true;
+        }
+        $result = $this->setPasswordInternal($params);
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
