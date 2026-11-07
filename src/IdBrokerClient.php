@@ -285,7 +285,11 @@ class IdBrokerClient extends BaseClient
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
-        } elseif ($statusCode === 204) {
+        } elseif ($statusCode === 404 || $statusCode === 204) {
+            /*
+             * ID Broker returns 404 for a nonexistent user. Accept 204 for
+             * compatibility with earlier ID Broker versions.
+             */
             return null;
         }
 
