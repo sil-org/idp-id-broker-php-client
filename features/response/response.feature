@@ -158,8 +158,14 @@ Feature: Handling responses from the ID Broker API
     And the result should be an array
     And an exception should NOT have been thrown
 
-  Scenario: Handling a getUser call for a non-existent user
+  Scenario: Handling a getUser call for a non-existent user (earlier ID Broker versions)
     Given a call to "getUser" will return a 204 response
+    When I call getUser with the necessary data
+    Then the result should be null
+    And an exception should NOT have been thrown
+
+  Scenario: Handling a getUser call for a non-existent user
+    Given a call to "getUser" will return a 404 response
     When I call getUser with the necessary data
     Then the result should be null
     And an exception should NOT have been thrown
