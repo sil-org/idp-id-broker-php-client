@@ -9,9 +9,9 @@ use GuzzleHttp\Command\Exception\CommandException;
  * the API's service description, before any request is sent to the ID Broker
  * (e.g. "Validation errors: [username] is a required string").
  *
- * This extends Guzzle's CommandException (which is what was thrown in this
- * situation before this class existed), so existing code that catches
- * CommandException still works.
+ * This extends Guzzle's CommandException, so code that catches
+ * CommandException also catches this. The original exception from Guzzle's
+ * validator is available via getPrevious().
  */
 class ValidationException extends CommandException
 {

@@ -579,6 +579,15 @@ Feature: Formatting requests for sending to the ID Broker API
       | last_name    |
       | username     |
 
+  Scenario: Validation can be disabled
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I have disabled request validation
+    And I provide all the fields required to create a user except "username"
+    When I try to call createUser
+    Then no exception should have been thrown
+    And one request should have been sent
+
   Scenario: Connection failure is not a validation failure
     Given I am using a baseUri of "https://api.example.com/"
     And I have indicated not to validate the id broker ip

@@ -702,6 +702,24 @@ class RequestContext implements Context
         Assert::notInstanceOf($this->exceptionThrown, ValidationException::class);
     }
 
+    #[Given('I have disabled request validation')]
+    public function iHaveDisabledRequestValidation()
+    {
+        $this->config['validate'] = false;
+    }
+
+    #[Then('no exception should have been thrown')]
+    public function noExceptionShouldHaveBeenThrown()
+    {
+        Assert::null($this->exceptionThrown);
+    }
+
+    #[Then('one request should have been sent')]
+    public function oneRequestShouldHaveBeenSent()
+    {
+        Assert::count($this->requestHistory, 1);
+    }
+
     #[Then('no request should have been sent')]
     public function noRequestShouldHaveBeenSent()
     {

@@ -73,8 +73,10 @@ class BaseClient extends GuzzleClient
     /**
      * Wrap the given validator middleware so that any CommandException it
      * throws before passing the command along to the next handler is
-     * rethrown as a ValidationException. Exceptions from later handlers
-     * (e.g. transport errors) are not affected.
+     * rethrown as a ValidationException. A CommandException thrown
+     * synchronously by a later handler (e.g. command middleware pushed
+     * after this one) is rethrown unchanged. Transport errors never reach
+     * this catch; ServiceClient returns them as a rejected promise.
      *
      * @param callable $validator
      * @return callable
