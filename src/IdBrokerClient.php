@@ -206,6 +206,7 @@ class IdBrokerClient extends BaseClient
      *     user.
      * @return array An array of information about the new user.
      * @throws ServiceException
+     * @throws ValidationException
      */
     public function createUser(array $config = []): array
     {
@@ -305,6 +306,7 @@ class IdBrokerClient extends BaseClient
      *     example ['username' => 'billy']
      * @return array An array with a sub-array about each user.
      * @throws ServiceException
+     * @throws ValidationException
      */
     public function listUsers(array $fields = null, ?array $search = []): array
     {
@@ -332,6 +334,7 @@ class IdBrokerClient extends BaseClient
      * @param string|null $recovery_email
      * @return array|null
      * @throws ServiceException
+     * @throws ValidationException
      */
     public function mfaCreate(string $employee_id, string $type, string $label = null, string $rpOrigin = '', string $recovery_email = ''): ?array
     {
@@ -480,6 +483,7 @@ class IdBrokerClient extends BaseClient
      * @return bool|array
      * @throws MfaRateLimitException
      * @throws ServiceException
+     * @throws ValidationException
      */
     public function mfaVerify(
         string $id,
@@ -744,6 +748,7 @@ class IdBrokerClient extends BaseClient
      *     Must include at least an 'employee_id' entry.
      * @return array An array of information about the updated user.
      * @throws ServiceException
+     * @throws ValidationException
      */
     public function updateUser(array $config = []): array
     {
@@ -784,6 +789,7 @@ class IdBrokerClient extends BaseClient
      *     email.
      * @return array An array of information about the email.
      * @throws EmailServiceClientException
+     * @throws ValidationException
      */
     public function email(array $config = [])
     {
@@ -808,6 +814,7 @@ class IdBrokerClient extends BaseClient
      *
      * @param string $username The username (or email address) of the user.
      * @throws ServiceException
+     * @throws ValidationException
      */
     public function createReset(string $username, string $include_manager = 'no'): void
     {
