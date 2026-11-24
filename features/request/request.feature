@@ -563,3 +563,35 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "PUT"
     And the url should be "https://api.example.com/reset/00000000-0000-0000-0000-000000000000/verify"
     And an authorization header should be present
+
+  Scenario Outline: Validation failure when a required field is missing
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide all the fields required to create a user except "<missingField>"
+    When I try to call createUser
+    Then a ValidationException about "<missingField>" should have been thrown
+    And no request should have been sent
+
+    Examples:
+      | missingField |
+      | employee_id  |
+      | first_name   |
+      | last_name    |
+      | username     |
+
+  Scenario: Validation can be disabled
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I have disabled request validation
+    And I provide all the fields required to create a user except "username"
+    When I try to call createUser
+    Then no exception should have been thrown
+    And one request should have been sent
+
+  Scenario: Connection failure is not a validation failure
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And the ID Broker cannot be reached
+    And I provide all the fields required to create a user
+    When I try to call createUser
+    Then a CommandException that is not a ValidationException should have been thrown
