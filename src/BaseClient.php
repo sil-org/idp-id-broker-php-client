@@ -2,8 +2,11 @@
 namespace Sil\Idp\IdBroker\Client;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Command\CommandInterface;
+use GuzzleHttp\Command\Exception\CommandException;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\Guzzle\Description;
+use GuzzleHttp\Command\Guzzle\Handler\ValidatedDescriptionHandler;
 
 class BaseClient extends GuzzleClient
 {
@@ -42,6 +45,60 @@ class BaseClient extends GuzzleClient
             null,
             $mergedConfig
         );
+    }
+
+    /**
+     * Set up the handler stack the same way GuzzleClient does, except that
+     * the description validator is wrapped so that its failures are thrown as
+     * a ValidationException.
+     *
+     * @param array $config
+     */
+    protected function processConfig(array $config): void
+    {
+        $validate = !isset($config['validate']) || $config['validate'] === true;
+        $config['validate'] = false;
+        parent::processConfig($config);
+
+        if ($validate) {
+            $this->getHandlerStack()->push(
+                self::getValidationMiddleware(
+                    new ValidatedDescriptionHandler($this->getDescription())
+                ),
+                'validate_description'
+            );
+        }
+    }
+
+    /**
+     * Wrap the given validator middleware so that any CommandException it
+     * throws before passing the command along to the next handler is
+     * rethrown as a ValidationException. Exceptions from later handlers
+     * (e.g. transport errors) are not affected.
+     *
+     * @param callable $validator
+     * @return callable
+     */
+    private static function getValidationMiddleware(callable $validator): callable
+    {
+        return function (callable $handler) use ($validator) {
+            return function (CommandInterface $command) use ($validator, $handler) {
+                $commandWasPassedOn = false;
+                $next = function (CommandInterface $command) use ($handler, &$commandWasPassedOn) {
+                    $commandWasPassedOn = true;
+                    return $handler($command);
+                };
+
+                try {
+                    return $validator($next)($command);
+                } catch (CommandException $e) {
+                    if ($commandWasPassedOn) {
+                        throw $e;
+                    }
+                    throw new ValidationException($e->getMessage(), $command, $e);
+                }
+            };
+        };
     }
 
     /**

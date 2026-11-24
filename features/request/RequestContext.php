@@ -5,14 +5,18 @@ namespace Sil\Idp\IdBroker\Client\features\request;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
+use GuzzleHttp\Command\Exception\CommandException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
+use Sil\Idp\IdBroker\Client\ValidationException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -26,6 +30,7 @@ class RequestContext implements Context
     private $requestHistory = [];
     private $config = [];
     private $exceptionThrown = null;
+    private $brokerIsUnreachable = false;
     public $trustedHost = 'https://trusted_host.org/';
     public $untrustedHost = 'https://untrusted_host.org/';
 
@@ -55,7 +60,9 @@ class RequestContext implements Context
     protected function getHttpClientHandlerForTests()
     {
         $mockHandler = new MockHandler([
-            new Response(),
+            $this->brokerIsUnreachable
+                ? new ConnectException('Connection refused', new Request('POST', 'user'))
+                : new Response(),
         ]);
         $handlerStack = HandlerStack::create($mockHandler);
 
@@ -642,5 +649,62 @@ class RequestContext implements Context
         $this->getIdBrokerClient()->verifyReset(
             $this->requestData['uuid']
         );
+    }
+
+    #[Given('the ID Broker cannot be reached')]
+    public function theIdBrokerCannotBeReached()
+    {
+        $this->brokerIsUnreachable = true;
+    }
+
+    #[When('I try to call createUser')]
+    public function iTryToCallCreateUser()
+    {
+        $this->exceptionThrown = null;
+        try {
+            $this->getIdBrokerClient()->createUser($this->requestData);
+        } catch (\Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    #[Given('I provide all the fields required to create a user')]
+    public function iProvideAllTheFieldsRequiredToCreateAUser()
+    {
+        $this->requestData = array_merge($this->requestData, [
+            'employee_id' => '12345',
+            'first_name' => 'John',
+            'last_name' => 'Smith',
+            'username' => 'john_smith',
+        ]);
+    }
+
+    #[Given('I provide all the fields required to create a user except :fieldName')]
+    public function iProvideAllTheFieldsRequiredToCreateAUserExcept($fieldName)
+    {
+        $this->iProvideAllTheFieldsRequiredToCreateAUser();
+        Assert::keyExists($this->requestData, $fieldName, 'Not a required field: ' . $fieldName);
+        unset($this->requestData[$fieldName]);
+    }
+
+    #[Then('a ValidationException about :fieldName should have been thrown')]
+    public function aValidationExceptionAboutShouldHaveBeenThrown($fieldName)
+    {
+        Assert::isInstanceOf($this->exceptionThrown, ValidationException::class);
+        Assert::startsWith($this->exceptionThrown->getMessage(), 'Validation errors:');
+        Assert::contains($this->exceptionThrown->getMessage(), '[' . $fieldName . ']');
+    }
+
+    #[Then('a CommandException that is not a ValidationException should have been thrown')]
+    public function aNonValidationCommandExceptionShouldHaveBeenThrown()
+    {
+        Assert::isInstanceOf($this->exceptionThrown, CommandException::class);
+        Assert::notInstanceOf($this->exceptionThrown, ValidationException::class);
+    }
+
+    #[Then('no request should have been sent')]
+    public function noRequestShouldHaveBeenSent()
+    {
+        Assert::isEmpty($this->requestHistory);
     }
 }
